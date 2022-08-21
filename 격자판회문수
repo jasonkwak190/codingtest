@@ -1,0 +1,89 @@
+격자판 회문수
+1부터 9까지의 자연수로 채워진 7*7 격자판이 주어지면 격자판 위에서 가로방향 또는
+세로방향으로 길이 5자리 회문수가 몇 개 있는지 구하는 프로그램을 작성하세요.
+회문수란 121과 같이 앞에서부터 읽으나 뒤에서부터 읽으나 같은 수를 말합니다. (구부러진 경우 회문수로 간주하지 않습니다.)
+
+1부터 9까지의 자연수로 채워진 7*7격자판이 주어집니다.
+5자리 회문수의 개수를 출력합니다.
+
+입력예제 1
+2 4 1 5 3 2 6
+3 5 1 8 7 1 7
+8 3 2 7 1 3 8
+6 1 2 3 2 1 1
+1 3 1 3 5 3 2
+1 1 2 5 6 5 2
+1 2 2 2 2 1 5
+
+출력예제 1
+3
+
+코딩 1
+board = [list(map(int,input().split())) for _ in range(7)]
+cnt = 0
+for i in range(3):  # 앞 3열 부터 5개씩 비교하기 위해 3개만
+    for j in range(7): # 7행 비교 위해 하기
+        tmp=board[j][i:i+5] # [7행 하나씩 전체][열: 열+5]
+        if tmp==tmp[::-1]: # 그냥 == 거꾸로 비교
+            cnt+=1
+        for k in range(2): # 위는 가로로 5개 이거는 세로로 5개 비교
+            if board[i+k][j]!=board[i+5-k-1][j]: # 세로에서 첫번째와 마지막, 서서히 좁혀짐 비교 아닐시 break
+                break
+        else:
+            cnt+=1
+
+코딩 2
+def solution() :
+    board = [list(map(int, input().split())) for _ in range(7)]
+    cnt = 0
+    # row
+    for i in range(7) :
+        for j in range(3) :
+            if board[i][j:j+5] == board[i][j:j+5][::-1] :
+                cnt += 1
+    #column
+    for i in range(7) :
+        for j in range(3) :
+            tmp = []
+            for k in range(5) :
+                tmp.append(board[j+k][i])
+            if tmp == tmp[::-1] :
+                cnt += 1
+    print(cnt)
+solution()
+
+
+코딩 3
+a = [list(map(int, input().split())) for i in range(7)]
+
+total = 0 
+for i in range(7):
+    for j in range(3):
+      x = []
+      y = []
+      for k in range(5):
+        x.append(a[i][j+k]) # 회문 목적 append row
+        y.append(a[j+k][i]) # append column
+      if x == x[::-1]:
+        total += 1
+      if y == y[::-1]:
+        total += 1
+print(total)
+
+코딩 4
+a=[list(map(int, input().split())) for _ in range(7)]
+cnt =0
+for i in range(7): 
+    start = 0
+    for _ in range(3):
+        if a[i][start]==a[i][start+4] and a[i][start+1]==a[i][start+3]:
+            cnt+=1
+        if a[start][i]==a[start+4][i] and a[start+1][i]==a[start+3][i]:
+            cnt+=1
+        start+=1
+        if start ==3:
+            break
+print(cnt)
+
+
+
