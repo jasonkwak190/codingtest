@@ -1,0 +1,89 @@
+랜선 자르기 결정알고리즘
+입력값
+4 11
+802
+743
+457
+539
+
+# 코드 1
+def Count(len):
+    cnt = 0
+    for x in Line:
+        cnt+= (x//len)  # 802 // 전선을 반으로 나눈값 , 각 전선을 나눠서 몫을 누적한다
+    return cnt
+
+k, n = map(int, input().split())
+Line = []
+res=0
+largest=0
+for i in range(k): # 입력값이 엔터로 구분됨
+    tmp=int(input())
+    Line.append(tmp)
+    largest=max(largest,tmp) # 입력받은 랜선중 가장큰값
+lt=1
+rt=largest # 큰값부터 차례대로 넣기
+
+while lt<=rt:
+    mid = (lt+rt)//2 # 랜선의 길이
+    if Count(mid)>=n: # n = 11 , 문제의 목적은 전선을 최소 11개로 나누는 것임
+        res=mid # 11개 보다 크거나 같으면 답이 되는거임
+        lt = mid+1 # 조금더 나은 답을 찾으려고 lt 오른쪽으로 땡김
+    else:
+        rt = mid-1 # 자른 개수가 모자르면 rt 를 왼쪽으로 땡기고 나머지 버림
+
+print(res)
+
+
+# 코드 2
+def binary_search(lt, rt):
+    global K, N, answer, lines
+    cnt=0
+    medium = (lt+rt)//2
+    if lt <= rt:
+        for line in lines:
+            if line >= medium:
+                cnt += line // medium
+        if cnt >= N:
+            answer = medium
+            return binart_search(medium+1, rt)
+        else:
+            return binary_search(lt, medium-1)
+    else:
+        return
+
+K, N = map(int, input().split())
+lines = [int(input()) for _ in range(K)]
+lines.sort()
+answer = 0
+lt, rt = 1, lines[-1]
+binary_search(lt, rt)
+print(answer)
+
+# 코드 3
+a, b = map(int,input().split())
+Line = []
+for i in range(a):
+    tmp = int(input())
+    Line.append(tmp)
+lt = 1
+cnt=0
+rt = max(Line)
+def binary_search(x, y, z):
+    global cnt
+    cnt+=1
+    res=cnt
+    print(x, y, z, res)
+    while x<=y :
+        sum = 0
+        mid = (x+y)//2
+        for i in Line :
+            sum += i//mid
+        if sum >= b :
+            res = mid
+            return binary_search(mid+1,y,z)
+        else :
+            return binary_search(x,mid-1,z)
+    return res
+print(binary_search(lt,rt, b))
+        
